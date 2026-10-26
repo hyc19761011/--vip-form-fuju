@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#153e35">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <title>守善富琚貴賓資料表單</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #eef2ef;
+      --paper: #ffffff;
+      --paper-2: #f6f8f6;
+      --ink: #17211d;
+      --muted: #607068;
+      --line: #d7dfda;
+      --line-strong: #b8c6be;
+      --green: #153e35;
+      --green-2: #235c4d;
+      --green-soft: #e2ece7;
+      --gold: #a8793d;
+      --gold-soft: #f4eadb;
+      --danger: #a23f35;
+      --danger-soft: #f8e9e6;
+      --success: #1e684f;
+      --success-soft: #e5f1eb;
+      --shadow: 0 16px 42px rgba(25, 53, 44, .09);
+      --radius-lg: 20px;
+      --radius-md: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101713;
+        --paper: #18211d;
+        --paper-2: #202b26;
+        --ink: #eef4f0;
+        --muted: #a7b6ae;
+        --line: #32443b;
+        --line-strong: #4e6358;
+        --green: #83b7a6;
+        --green-2: #a8d1c4;
+        --green-soft: #243a31;
+        --gold: #d1a568;
+        --gold-soft: #3b3022;
+        --danger: #f0998e;
+        --danger-soft: #422822;
+        --success: #85c9ae;
+        --success-soft: #203b31;
+        --shadow: 0 18px 46px rgba(0, 0, 0, .28);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--green-soft) 72%, transparent) 0, transparent 260px),
+        var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--gold) 55%, transparent);
+      outline-offset: 2px;
+    }
+    .app { min-height: 100vh; padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
+    .mode-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: min(100%, 520px);
+      margin: 0 auto;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+      box-shadow: 0 5px 18px rgba(25, 53, 44, .06);
+    }
+    .mode-switch button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .mode-switch button[aria-selected="true"] { background: var(--green); color: #fff; }
+    @media (prefers-color-scheme: dark) {
+      .mode-switch button[aria-selected="true"] { color: #10201a; }
+    }
+    main { width: min(100%, 900px); margin: 0 auto; padding: 24px 14px 0; }
+    .intro { margin: 5px 2px 24px; }
+    .intro .case { display: inline-flex; align-items: center; gap: 8px; color: var(--gold); font-weight: 800; font-size: 13px; }
+    .intro .case::before { content: ""; width: 25px; height: 2px; background: currentColor; }
+    .intro h1 { margin: 8px 0 8px; font-family: "Noto Serif TC", serif; font-size: clamp(28px, 7vw, 42px); line-height: 1.18; letter-spacing: .04em; }
+    .intro p { margin: 0; max-width: 650px; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .progress { margin: 0 2px 22px; }
+    .progress-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 9px; }
+    .progress-meta strong { color: var(--green); font-family: "Noto Serif TC", serif; font-size: 14px; }
+    .progress-meta span { color: var(--muted); font-size: 12px; }
+    .track { height: 5px; border-radius: 999px; overflow: hidden; background: var(--line); }
+    .track i { display: block; width: 33.333%; height: 100%; border-radius: inherit; background: var(--gold); transition: width .22s ease; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .section-head { display: flex; gap: 13px; align-items: flex-start; margin: 0 2px 15px; }
+    .section-no { color: var(--gold); font-family: Georgia, serif; font-size: 33px; line-height: 1; }
+    .section-head h2 { margin: -3px 0 3px; font: 700 24px/1.3 "Noto Serif TC", serif; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .card { margin-bottom: 14px; padding: 18px 15px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); box-shadow: var(--shadow); }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .field { min-width: 0; }
+    .wide { grid-column: 1 / -1; }
+    .field-label { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 1px 8px; font-size: 14px; font-weight: 800; }
+    .required { color: var(--danger); font-size: 11px; }
+    .field-note { color: var(--muted); font-size: 11px; font-weight: 600; }
+    input, textarea, select {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 12px 13px;
+      background: var(--paper-2);
+      color: var(--ink);
+      font-size: 16px;
+      transition: border-color .15s, background .15s;
+    }
+    textarea { resize: vertical; line-height: 1.65; min-height: 112px; }
+    input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--muted) 72%, transparent); }
+    input:focus, textarea:focus, select:focus { border-color: var(--gold); background: var(--paper); }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .choice {
+      display: flex;
+      align-items: center;
+      min-height: 45px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--paper-2);
+      cursor: pointer;
+    }
+    .choice input {
+      position: static;
+      width: 18px;
+      height: 18px;
+      min-height: 18px;
+      margin: 0 8px 0 0;
+      padding: 0;
+      opacity: 1;
+      pointer-events: auto;
+      accent-color: var(--green);
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+    .choice span {
+      display: block;
+      min-width: 0;
+      flex: 1;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+    .choice:has(input:checked) { border-color: var(--green); background: var(--green-soft); color: var(--green-2); }
+    .choice input:focus-visible { outline: 3px solid color-mix(in srgb, var(--gold) 55%, transparent); outline-offset: 3px; }
+    .inline-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .inline-fields label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+    .inline-fields input { min-width: 0; text-align: center; }
+    .address { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .address input:nth-child(3) { grid-column: 1 / -1; }
+    .other { margin-top: 10px; }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 22px 0 0;
+      padding: 0;
+    }
+    .btn { min-height: 50px; border: 0; border-radius: 12px; padding: 12px 22px; font-weight: 800; cursor: pointer; }
+    .btn.primary { margin-left: auto; min-width: 145px; background: var(--green); color: #fff; }
+    .btn.secondary { border: 1px solid var(--line); background: var(--paper); }
+    .btn:disabled { opacity: .55; cursor: wait; }
+    @media (prefers-color-scheme: dark) { .btn.primary { color: #10201a; } }
+    .notice { display: none; margin: 0 0 16px; padding: 13px 14px; border-radius: 12px; background: var(--danger-soft); color: var(--danger); font-size: 14px; font-weight: 700; line-height: 1.55; }
+    .notice.show { display: block; }
+    .notice.success { background: var(--success-soft); color: var(--success); }
+    .confirmation { display: none; padding: 30px 18px; text-align: center; }
+    .confirmation.show { display: block; }
+    .seal { display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto 18px; border-radius: 50%; background: var(--success-soft); color: var(--success); }
+    .seal svg { width: 34px; height: 34px; }
+    .confirmation h2 { margin: 0 0 8px; font: 700 26px/1.3 "Noto Serif TC", serif; }
+    .confirmation p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .ref-box { margin: 22px auto; padding: 16px; max-width: 430px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper-2); }
+    .ref-box span { display: block; margin-bottom: 5px; color: var(--muted); font-size: 12px; }
+    .ref-box strong { font: 700 clamp(18px, 5vw, 24px)/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .02em; overflow-wrap: anywhere; }
+    .confirm-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+    .staff-shell { display: none; }
+    .staff-shell.active { display: block; }
+    .client-shell.hidden { display: none; }
+    .lookup-box { display: grid; gap: 10px; }
+    .lookup-line { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .lookup-line .btn { width: 100%; }
+    .helper { margin: 10px 2px 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .record-banner { display: none; grid-template-columns: 1fr; gap: 7px; margin: 0 0 16px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--green-soft); }
+    .record-banner.show { display: grid; }
+    .record-banner span { color: var(--muted); font-size: 12px; }
+    .record-banner strong { font-family: ui-monospace, monospace; font-size: 17px; overflow-wrap: anywhere; }
+    .record-banner b { font-size: 14px; }
+    #staffForm { display: none; }
+    #staffForm.show { display: block; }
+    .readonly { opacity: .85; }
+    .summary { display: grid; gap: 2px; padding: 14px; margin-bottom: 14px; border-radius: 12px; background: var(--gold-soft); color: var(--ink); }
+    .summary strong { font: 700 20px/1.4 "Noto Serif TC", serif; }
+    .summary span { color: var(--muted); font-size: 13px; }
+    .footer-note { margin: 26px 3px 0; color: var(--muted); font-size: 12px; line-height: 1.65; text-align: center; }
+    .spinner { display: inline-block; width: 16px; height: 16px; margin-right: 7px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -3px; animation: spin .75s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (min-width: 640px) {
+      main { padding: 38px 24px 0; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .choice-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .address { grid-template-columns: 1fr 1fr 1.35fr .65fr; }
+      .address input:nth-child(3) { grid-column: auto; }
+      .lookup-line { grid-template-columns: minmax(0, 1fr) auto; }
+      .lookup-line .btn { width: auto; }
+      .actions { position: static; margin: 24px 0 0; padding: 0; border: 0; background: transparent; backdrop-filter: none; }
+      .card { padding: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  
+    /* Unified form, search and reporting views */
+    .mode-switch { grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(100%, 780px); }
+    .mode-switch button { padding: 7px 5px; font-size: 14px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .edit-banner {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      background: var(--gold-soft);
+    }
+    .edit-banner.show { display: flex; }
+    .edit-banner span { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .edit-banner strong { min-width: 0; flex: 1; overflow-wrap: anywhere; font: 700 14px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .btn.compact { min-height: 38px; padding: 7px 12px; font-size: 13px; }
+    .staff-marker {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 20px;
+      padding: 15px 16px;
+      border-radius: 12px;
+      background: var(--green);
+      color: #fff;
+    }
+    .staff-marker strong { font: 700 17px/1.4 "Noto Serif TC", serif; }
+    .staff-marker span { opacity: .84; font-size: 12px; text-align: right; }
+    .search-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .date-pair { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .result-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 27px 3px 12px; }
+    .result-head h2 { margin: 0; font: 700 21px/1.4 "Noto Serif TC", serif; }
+    .result-head span { color: var(--muted); font-size: 13px; }
+    .results { display: grid; gap: 12px; }
+    .empty-state { padding: 32px 18px; border: 1px dashed var(--line-strong); border-radius: 14px; color: var(--muted); text-align: center; line-height: 1.7; }
+    .result-card { display: grid; gap: 15px; padding: 17px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 8px 24px rgba(25, 53, 44, .06); }
+    .result-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .result-top h3 { margin: 0 0 3px; font: 700 19px/1.35 "Noto Serif TC", serif; }
+    .result-top code { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+    .status-badge { flex: 0 0 auto; padding: 4px 8px; border-radius: 999px; background: var(--green-soft); color: var(--green-2); font-size: 11px; font-weight: 800; }
+    .result-meta { display: grid; grid-template-columns: 1fr; gap: 9px; }
+    .result-meta div { display: grid; gap: 2px; }
+    .result-meta span { color: var(--muted); font-size: 11px; }
+    .result-meta strong { font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+    .record-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .record-actions .btn { width: 100%; min-height: 42px; padding: 8px 12px; }
+    .btn.danger { border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--line)); background: var(--danger-soft); color: var(--danger); }
+    .list-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 2px 12px; }
+    .list-toolbar strong { font: 700 18px/1.4 "Noto Serif TC", serif; }
+    .list-toolbar span { display: block; color: var(--muted); font: 500 12px/1.5 "Noto Sans TC", sans-serif; }
+    .table-shell { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: var(--shadow); -webkit-overflow-scrolling: touch; }
+    .customer-table { width: 100%; min-width: 850px; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+    .customer-table th, .customer-table td { padding: 13px 14px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+    .customer-table th { position: sticky; top: 0; z-index: 2; background: var(--paper-2); color: var(--muted); font-size: 12px; font-weight: 800; }
+    .customer-table tbody tr:last-child td { border-bottom: 0; }
+    .customer-table tbody tr:hover td { background: color-mix(in srgb, var(--green-soft) 42%, var(--paper)); }
+    .customer-table .id-cell { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .customer-table .action-col { position: sticky; right: 0; z-index: 1; min-width: 150px; background: var(--paper); box-shadow: -9px 0 14px -13px rgba(23,33,29,.55); }
+    .customer-table th.action-col { z-index: 3; background: var(--paper-2); }
+    .customer-table tbody tr:hover .action-col { background: color-mix(in srgb, var(--green-soft) 42%, var(--paper)); }
+    .table-actions { display: flex; gap: 6px; }
+    .table-actions .btn { min-height: 36px; padding: 6px 10px; font-size: 12px; }
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 14px 2px 0;
+    }
+    .pagination-summary { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .pagination-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+    .page-btn { min-width: 38px; min-height: 38px; border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; background: var(--paper); font-size: 13px; font-weight: 800; cursor: pointer; }
+    .page-btn[aria-current="page"] { border-color: var(--green); background: var(--green); color: #fff; }
+    .page-btn:disabled { opacity: .48; cursor: not-allowed; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 20px; background: rgba(8, 15, 12, .62); }
+    .modal-backdrop.show { display: grid; }
+    .modal-card { width: min(100%, 430px); padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: 0 24px 70px rgba(0,0,0,.28); }
+    .modal-card h2 { margin: 0 0 9px; font: 700 22px/1.35 "Noto Serif TC", serif; }
+    .modal-card p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .modal-card strong { color: var(--ink); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 22px; }
+    .period-switch { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 0 0 18px; padding: 4px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .period-switch button { min-height: 44px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font-weight: 800; cursor: pointer; }
+    .period-switch button.active { background: var(--green); color: #fff; }
+    .period-switch button:disabled { cursor: wait; opacity: .72; }
+    .report-meta { display: flex; justify-content: space-between; gap: 12px; margin: 0 3px 12px; }
+    .report-meta strong { font-size: 14px; }
+    .report-meta span { color: var(--muted); font-size: 13px; }
+    .chart-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .chart-card { min-width: 0; padding: 18px 14px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: var(--shadow); }
+    .chart-title { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 0 3px 12px; }
+    .chart-title h2 { margin: 0; font: 700 18px/1.4 "Noto Serif TC", serif; }
+    .chart-title span { color: var(--muted); font-size: 12px; }
+    .canvas-wrap { position: relative; width: 100%; height: 280px; }
+    .chart-total { margin: 12px 3px 0; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 700; text-align: right; }
+    @media (prefers-color-scheme: dark) {
+      .staff-marker, .period-switch button.active, .page-btn[aria-current="page"] { color: #10201a; }
+    }
+    @media (min-width: 640px) {
+      .search-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .date-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .result-card { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; align-items: center; padding: 18px 20px; }
+      .result-top { display: block; }
+      .status-badge { display: inline-block; margin-top: 9px; }
+      .result-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .record-actions { grid-template-columns: 1fr; min-width: 88px; }
+      .chart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .wide-chart { grid-column: 1 / -1; }
+      .canvas-wrap { height: 320px; }
+    }
+    @media (max-width: 639px) {
+      .table-shell { overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+      .customer-table, .customer-table tbody, .customer-table tr, .customer-table td { display: block; width: 100%; min-width: 0; }
+      .customer-table thead { display: none; }
+      .customer-table tbody { display: grid; gap: 12px; }
+      .customer-table tr { padding: 15px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 8px 24px rgba(25, 53, 44, .06); }
+      .customer-table td { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); white-space: normal; overflow-wrap: anywhere; }
+      .customer-table td::before { color: var(--muted); font-size: 12px; font-weight: 800; }
+      .customer-table td:nth-child(1)::before { content: "編號"; }
+      .customer-table td:nth-child(2)::before { content: "貴賓姓名"; }
+      .customer-table td:nth-child(3)::before { content: "手機"; }
+      .customer-table td:nth-child(4)::before { content: "建立時間"; }
+      .customer-table td:nth-child(5)::before { content: "狀態"; }
+      .customer-table .action-col { position: static; display: block; min-width: 0; padding: 12px 0 0; border-bottom: 0; background: transparent; box-shadow: none; }
+      .customer-table .action-col::before { content: none; }
+      .customer-table tbody tr:hover td, .customer-table tbody tr:hover .action-col { background: transparent; }
+      .table-actions .btn { flex: 1; }
+    }
+    @media (max-width: 420px) {
+      .mode-bar { padding-left: 8px; padding-right: 8px; }
+      .mode-switch button { font-size: 12px; padding-left: 2px; padding-right: 2px; }
+      .staff-marker { align-items: flex-start; flex-direction: column; }
+      .staff-marker span { text-align: left; }
+      .edit-banner { align-items: flex-start; flex-wrap: wrap; }
+      .edit-banner .compact { margin-left: auto; }
+      .pagination { align-items: stretch; }
+      .pagination-summary { width: 100%; text-align: center; }
+      .pagination-buttons { width: 100%; justify-content: center; }
+      .page-btn { flex: 0 0 auto; }
+      .canvas-wrap { height: 250px; }
+    }
+
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="mode-bar">
+    <div class="mode-switch" role="tablist" aria-label="功能分頁">
+      <button id="formTab" role="tab" aria-selected="true" aria-controls="formPanel" type="button">表單填寫</button>
+      <button id="searchTab" role="tab" aria-selected="false" aria-controls="searchPanel" type="button">客戶查詢</button>
+      <button id="listTab" role="tab" aria-selected="false" aria-controls="listPanel" type="button">客資列表</button>
+      <button id="reportTab" role="tab" aria-selected="false" aria-controls="reportPanel" type="button">分析報表</button>
+    </div>
+  </div>
+
+  <main>
+    <section id="formPanel" class="panel active" role="tabpanel" aria-labelledby="formTab">
+      <div class="intro">
+        <span class="case">守善富琚</span>
+        <h1>貴賓資料</h1>
+        <p>貴賓與業務資料整合在同一份表單，依序完成三個步驟即可建立或更新紀錄。</p>
+      </div>
+
+      <div id="editBanner" class="edit-banner" role="status"><span>編輯中</span><strong id="editingId"></strong><button id="cancelEdit" class="btn secondary compact" type="button">取消編輯</button></div>
+      <div id="formNotice" class="notice" role="alert"></div>
+
+      <form id="clientForm" novalidate>
+        <div class="progress" aria-label="填寫進度">
+          <div class="progress-meta"><strong id="progressTitle">第 1 步，共 3 步</strong><span id="progressName">基本資料</span></div>
+          <div class="track"><i id="progressBar"></i></div>
+        </div>
+
+        <div class="step active" data-step="0">
+          <div class="section-head"><span class="section-no">01</span><div><h2>基本資料</h2><p>聯絡方式與目前居住概況</p></div></div>
+          <div class="card grid">
+            <div class="field"><label class="field-label" for="caseName">案名</label><input id="caseName" name="案名" value="守善富琚" placeholder="請輸入案名"></div>
+            <div class="field"><label class="field-label" for="guestName"><span>貴賓姓名</span><span class="required">必填</span></label><input id="guestName" name="貴賓姓名" autocomplete="name" placeholder="請輸入姓名" required></div>
+            <div class="field"><label class="field-label" for="age">年齡</label><input id="age" name="年齡" type="number" inputmode="numeric" min="1" max="120" placeholder="歲"></div>
+            <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label">性別</legend><div class="choice-grid"><label class="choice"><input type="radio" name="性別" value="男"><span>男</span></label><label class="choice"><input type="radio" name="性別" value="女"><span>女</span></label></div></fieldset>
+            <div class="field"><label class="field-label" for="homePhone">住家電話</label><input id="homePhone" name="住家電話" type="tel" autocomplete="tel" placeholder="例：04-12345678"></div>
+            <div class="field"><label class="field-label" for="mobile"><span>手機</span><span class="required">必填</span></label><input id="mobile" name="手機" type="tel" inputmode="tel" autocomplete="tel" placeholder="例：0912-345-678" required></div>
+            <div class="field wide"><div class="field-label">居住地</div><div class="address"><input name="居住縣市" autocomplete="address-level1" placeholder="縣／市" aria-label="居住縣市"><input name="居住鄉鎮市區" autocomplete="address-level2" placeholder="鄉鎮市區" aria-label="居住鄉鎮市區"><input name="居住路街" autocomplete="address-line1" placeholder="路／街" aria-label="居住路街"><input name="居住號" placeholder="號" aria-label="居住門牌號碼"></div></div>
+          </div>
+          <div class="card">
+            <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label"><span>職業</span><span class="field-note">可複選</span></legend><div class="choice-grid" data-check-group="職業">
+              <label class="choice"><input type="checkbox" value="自營商"><span>自營商</span></label><label class="choice"><input type="checkbox" value="電子業"><span>電子業</span></label><label class="choice"><input type="checkbox" value="金融業"><span>金融業</span></label><label class="choice"><input type="checkbox" value="服務業"><span>服務業</span></label><label class="choice"><input type="checkbox" value="製造業"><span>製造業</span></label><label class="choice"><input type="checkbox" value="自由業"><span>自由業</span></label><label class="choice"><input type="checkbox" value="上班族"><span>上班族</span></label><label class="choice"><input type="checkbox" value="專業人員"><span>專業人員</span></label><label class="choice"><input type="checkbox" value="軍人"><span>軍人</span></label><label class="choice"><input type="checkbox" value="家管"><span>家管</span></label><label class="choice"><input type="checkbox" value="公務人員"><span>公務人員</span></label><label class="choice"><input type="checkbox" value="教職"><span>教職</span></label><label class="choice"><input type="checkbox" value="退休"><span>退休</span></label><label class="choice"><input type="checkbox" value="投資客"><span>投資客</span></label>
+            </div><div class="other"><input name="職業其他" placeholder="其他職業" aria-label="其他職業"></div></fieldset>
+          </div>
+          <div class="card grid">
+            <fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label">現居持有</legend><div class="choice-grid"><label class="choice"><input type="radio" name="現居持有" value="自有"><span>自有</span></label><label class="choice"><input type="radio" name="現居持有" value="租屋"><span>租屋</span></label></div></fieldset>
+            <div class="field"><label class="field-label" for="houseAge">屋齡</label><input id="houseAge" name="屋齡" type="number" inputmode="numeric" min="0" max="150" placeholder="年"></div>
+            <fieldset class="field wide" style="border:0;padding:0;margin:0"><legend class="field-label"><span>現居類型</span><span class="field-note">可複選</span></legend><div class="choice-grid" data-check-group="現居類型"><label class="choice"><input type="checkbox" value="透天"><span>透天</span></label><label class="choice"><input type="checkbox" value="公寓"><span>公寓</span></label><label class="choice"><input type="checkbox" value="大樓"><span>大樓</span></label><label class="choice"><input type="checkbox" value="華廈"><span>華廈</span></label></div></fieldset>
+          </div>
+        </div>
+
+        <div class="step" data-step="1">
+          <div class="section-head"><span class="section-no">02</span><div><h2>購屋需求</h2><p>格局、預算與接觸管道</p></div></div>
+          <div class="card grid">
+            <div class="field wide"><div class="field-label">需求格局</div><div class="inline-fields"><label>房<input name="需求房" inputmode="numeric" aria-label="需求房數"></label><label>廳<input name="需求廳" inputmode="numeric" aria-label="需求廳數"></label><label>衛<input name="需求衛" inputmode="numeric" aria-label="需求衛浴數"></label></div></div>
+            <div class="field"><label class="field-label" for="referralUnit">介紹戶別</label><input id="referralUnit" name="介紹戶別" placeholder="例：A3-12F"></div>
+            <div class="field"><label class="field-label" for="visitDate">蒞臨日期</label><input id="visitDate" name="蒞臨日期" type="date"></div>
+          </div>
+          <div class="card"><fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label"><span>購屋動機</span><span class="field-note">可複選</span></legend><div class="choice-grid" data-check-group="購屋動機"><label class="choice"><input type="checkbox" value="自住"><span>自住</span></label><label class="choice"><input type="checkbox" value="投資置產"><span>投資置產</span></label><label class="choice"><input type="checkbox" value="交通因素"><span>交通因素</span></label><label class="choice"><input type="checkbox" value="工作因素"><span>工作因素</span></label><label class="choice"><input type="checkbox" value="環境因素"><span>環境因素</span></label><label class="choice"><input type="checkbox" value="營業用"><span>營業用</span></label><label class="choice"><input type="checkbox" value="小換大"><span>小換大</span></label><label class="choice"><input type="checkbox" value="新婚用"><span>新婚用</span></label><label class="choice"><input type="checkbox" value="舊換新"><span>舊換新</span></label></div><div class="other"><input name="購屋動機其他" placeholder="其他購屋動機" aria-label="其他購屋動機"></div></fieldset></div>
+          <div class="card"><fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label"><span>房型需求</span><span class="field-note">可複選</span></legend><div class="choice-grid" data-check-group="房型需求"><label class="choice"><input type="checkbox" value="三房"><span>三房</span></label><label class="choice"><input type="checkbox" value="四房"><span>四房</span></label><label class="choice"><input type="checkbox" value="其他"><span>其他</span></label></div><div class="other"><input name="房型其他" placeholder="其他房型需求" aria-label="其他房型需求"></div></fieldset></div>
+          <div class="card"><fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label">預算</legend><div class="choice-grid"><label class="choice"><input type="radio" name="預算" value="500-1000萬"><span>500-1000萬</span></label><label class="choice"><input type="radio" name="預算" value="1000-1500萬"><span>1000-1500萬</span></label><label class="choice"><input type="radio" name="預算" value="1500-2000萬"><span>1500-2000萬</span></label><label class="choice"><input type="radio" name="預算" value="2000-2500萬"><span>2000-2500萬</span></label><label class="choice"><input type="radio" name="預算" value="2500-3000萬"><span>2500-3000萬</span></label><label class="choice"><input type="radio" name="預算" value="3000-3500萬"><span>3000-3500萬</span></label><label class="choice"><input type="radio" name="預算" value="3500-4000萬"><span>3500-4000萬</span></label><label class="choice"><input type="radio" name="預算" value="4000萬以上"><span>4000萬以上</span></label></div></fieldset></div>
+          <div class="card"><fieldset class="field" style="border:0;padding:0;margin:0"><legend class="field-label"><span>資訊來源</span><span class="field-note">可複選</span></legend><div class="choice-grid" data-check-group="資訊來源"><label class="choice"><input type="checkbox" value="報紙"><span>報紙</span></label><label class="choice"><input type="checkbox" value="廣播"><span>廣播</span></label><label class="choice"><input type="checkbox" value="派報"><span>派報</span></label><label class="choice"><input type="checkbox" value="帆布看板"><span>帆布看板</span></label><label class="choice"><input type="checkbox" value="郵寄DM"><span>郵寄 DM</span></label><label class="choice"><input type="checkbox" value="雜誌"><span>雜誌</span></label><label class="choice"><input type="checkbox" value="接待所"><span>接待所</span></label><label class="choice"><input type="checkbox" value="夾報"><span>夾報</span></label><label class="choice"><input type="checkbox" value="親友介紹"><span>親友介紹</span></label><label class="choice"><input type="checkbox" value="電視"><span>電視</span></label><label class="choice"><input type="checkbox" value="網路"><span>網路</span></label><label class="choice"><input type="checkbox" value="指示牌"><span>指示牌</span></label><label class="choice"><input type="checkbox" value="簡訊"><span>簡訊</span></label><label class="choice"><input type="checkbox" value="其他"><span>其他</span></label></div><div class="other"><input name="資訊來源其他" placeholder="報紙、雜誌或其他來源名稱" aria-label="資訊來源補充"></div></fieldset></div>
+        </div>
+
+        <div class="step" data-step="2">
+          <div class="staff-marker"><strong>以下由業務員填寫</strong><span>現場洽談與後續追蹤紀錄</span></div>
+          <div class="section-head"><span class="section-no">03</span><div><h2>業務員填寫</h2><p>完成接待紀錄後確認送出</p></div></div>
+          <div class="card grid">
+            <div class="field"><label class="field-label" for="feature">特徵</label><input id="feature" name="特徵" placeholder="外觀、談吐或辨識資訊"></div>
+            <div class="field"><label class="field-label" for="companions">同來人數</label><input id="companions" name="同來人數" type="number" inputmode="numeric" min="0" placeholder="人"></div>
+            <div class="field wide"><label class="field-label" for="relation">關係</label><input id="relation" name="關係" placeholder="例：夫妻、親子、朋友"></div>
+            <div class="field wide"><label class="field-label" for="likes">喜愛點</label><textarea id="likes" name="喜愛點" placeholder="客戶最感興趣的格局、產品特色或條件"></textarea></div>
+            <div class="field wide"><label class="field-label" for="objections">抗性</label><textarea id="objections" name="抗性" placeholder="價格、地點、付款方式或其他疑慮"></textarea></div>
+            <div class="field wide"><label class="field-label" for="otherNotes">其他</label><textarea id="otherNotes" name="其他" placeholder="其他現場洽談紀錄"></textarea></div>
+            <div class="field wide"><label class="field-label" for="contactRecord">電訪紀錄</label><textarea id="contactRecord" name="電訪紀錄" rows="6" placeholder="請記錄日期、聯繫結果與下一步"></textarea></div>
+            <div class="field"><label class="field-label" for="projectOwner">專案</label><input id="projectOwner" name="專案" placeholder="專案人員"></div>
+            <div class="field"><label class="field-label" for="filledBy">填表人</label><input id="filledBy" name="填表人" placeholder="銷售人員姓名"></div>
+          </div>
+          <div class="summary"><strong id="reviewName">尚未填寫姓名</strong><span id="reviewContact">尚未填寫手機</span></div>
+        </div>
+
+        <div class="actions"><button id="prevBtn" class="btn secondary" type="button" hidden>上一步</button><button id="nextBtn" class="btn primary" type="button">下一步</button><button id="submitBtn" class="btn primary" type="submit" hidden>確認送出</button></div>
+      </form>
+
+      <div id="confirmation" class="card confirmation" aria-live="polite">
+        <div class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h2 id="confirmationTitle">資料已送出</h2>
+        <p id="confirmationText">貴賓資料已建立，請保存下方客戶編號。</p>
+        <div class="ref-box"><span>客戶編號</span><strong id="createdId"></strong></div>
+        <div class="confirm-actions"><button id="copyId" class="btn secondary" type="button">複製編號</button><button id="newForm" class="btn primary" type="button">填寫下一份</button></div>
+      </div>
+    </section>
+
+    <section id="searchPanel" class="panel" role="tabpanel" aria-labelledby="searchTab">
+      <div class="intro"><span class="case">多欄位搜尋</span><h1>客戶查詢</h1><p>可用編號精確查詢，或以姓名、手機與建立日期範圍交叉篩選。</p></div>
+      <div id="searchNotice" class="notice" role="alert"></div>
+      <form id="searchForm" class="card search-grid">
+        <div class="field"><label class="field-label" for="searchId">編號<span class="field-note">精確</span></label><input id="searchId" name="編號" autocomplete="off" autocapitalize="characters" placeholder="例：SFJ-20261026-001"></div>
+        <div class="field"><label class="field-label" for="searchName">貴賓姓名<span class="field-note">模糊</span></label><input id="searchName" name="貴賓姓名" placeholder="輸入部分姓名即可"></div>
+        <div class="field"><label class="field-label" for="searchMobile">手機<span class="field-note">模糊</span></label><input id="searchMobile" name="手機" type="tel" inputmode="tel" placeholder="輸入部分號碼即可"></div>
+        <div class="date-pair wide"><div class="field"><label class="field-label" for="dateFrom">建立日期起</label><input id="dateFrom" name="date_from" type="date"></div><div class="field"><label class="field-label" for="dateTo">建立日期迄</label><input id="dateTo" name="date_to" type="date"></div></div>
+        <button id="searchBtn" class="btn primary wide" type="submit">搜尋客戶</button>
+      </form>
+      <div class="result-head"><h2>搜尋結果</h2><span id="resultCount">尚未搜尋</span></div>
+      <div id="results" class="results"><div class="empty-state">輸入任一條件後搜尋，符合的客戶會顯示在這裡。</div></div>
+    </section>
+
+    <section id="listPanel" class="panel" role="tabpanel" aria-labelledby="listTab">
+      <div class="intro"><span class="case">完整客戶名冊</span><h1>客資列表</h1><p>集中查看全部客戶資料，並可從每列最後一欄直接編輯或刪除。</p></div>
+      <div id="listNotice" class="notice" role="alert"></div>
+      <div class="list-toolbar">
+        <div><strong>全部客資</strong><span id="listCount">尚未載入</span></div>
+        <button id="refreshList" class="btn secondary compact" type="button">重新整理</button>
+      </div>
+      <div id="listTableWrap" class="table-shell" aria-live="polite">
+        <div class="empty-state">正在載入客戶資料…</div>
+      </div>
+      <nav id="listPagination" class="pagination" aria-label="客資列表分頁"></nav>
+    </section>
+
+    <section id="reportPanel" class="panel" role="tabpanel" aria-labelledby="reportTab">
+      <div class="intro"><span class="case">來客資料摘要</span><h1>分析報表</h1><p>依本週、本月、本季或全部資料查看來客趨勢與完整客群輪廓。</p></div>
+      <div class="period-switch" role="group" aria-label="分析時間範圍"><button type="button" data-period="week">本週</button><button type="button" data-period="month" class="active">本月</button><button type="button" data-period="quarter">本季</button><button type="button" data-period="all">所有</button></div>
+      <div id="reportNotice" class="notice" role="alert"></div>
+      <div class="report-meta"><strong id="reportRange">—</strong><span id="reportTotal">載入中</span></div>
+      <div id="charts" class="chart-grid" aria-live="polite">
+        <article class="chart-card wide-chart"><div class="chart-title"><h2>來人數趨勢</h2><span id="trendUnit">按週</span></div><div class="canvas-wrap"><canvas id="trendChart"></canvas></div><div id="trendTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>性別</h2><span>來客分布</span></div><div class="canvas-wrap"><canvas id="genderChart"></canvas></div><div id="genderTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>年齡分布</h2><span>人數</span></div><div class="canvas-wrap"><canvas id="ageChart"></canvas></div><div id="ageTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>居住區域</h2><span>依居住縣市</span></div><div class="canvas-wrap"><canvas id="cityChart"></canvas></div><div id="cityTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>職業</h2><span>前 10 名</span></div><div class="canvas-wrap"><canvas id="occupationChart"></canvas></div><div id="occupationTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>購屋動機</h2><span>來客分布</span></div><div class="canvas-wrap"><canvas id="motiveChart"></canvas></div><div id="motiveTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>預算分布</h2><span>人數</span></div><div class="canvas-wrap"><canvas id="budgetChart"></canvas></div><div id="budgetTotal" class="chart-total">總筆數：0 筆</div></article>
+        <article class="chart-card"><div class="chart-title"><h2>資訊來源</h2><span>來客分布</span></div><div class="canvas-wrap"><canvas id="sourceChart"></canvas></div><div id="sourceTotal" class="chart-total">總筆數：0 筆</div></article>
+      </div>
+    </section>
+  </main>
+
+  <div id="deleteModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="deleteTitle" aria-describedby="deleteMessage">
+    <div class="modal-card">
+      <h2 id="deleteTitle">確認刪除資料</h2>
+      <p id="deleteMessage"></p>
+      <div class="modal-actions">
+        <button id="cancelDelete" class="btn secondary" type="button">取消</button>
+        <button id="confirmDelete" class="btn danger" type="button">確認刪除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var BACKEND_URL = "https://script.google.com/macros/s/AKfycbx6PI-nHTqnt3geD1bnihzSwvPhDu3Fs-EZEdGv15TB8xjK3BG3cuhsK3Kgha4UMbT8jg/exec";
+  var clientForm = document.getElementById("clientForm");
+  var confirmation = document.getElementById("confirmation");
+  var formNotice = document.getElementById("formNotice");
+  var searchNotice = document.getElementById("searchNotice");
+  var listNotice = document.getElementById("listNotice");
+  var reportNotice = document.getElementById("reportNotice");
+  var currentStep = 0;
+  var editingId = "";
+  var reportPeriod = "month";
+  var listRows = [];
+  var listPage = 1;
+  var listPageSize = 25;
+  var listTotal = 0;
+  var deleteTarget = null;
+  var charts = {};
+  var stepNames = ["基本資料", "購屋需求", "業務員填寫"];
+
+  function taipeiDate() {
+    return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  }
+  document.getElementById("visitDate").value = taipeiDate();
+
+  function switchPanel(name) {
+    ["form", "search", "list", "report"].forEach(function (key) {
+      var selected = key === name;
+      document.getElementById(key + "Tab").setAttribute("aria-selected", String(selected));
+      document.getElementById(key + "Panel").classList.toggle("active", selected);
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (name === "list") loadCustomerList();
+    if (name === "report") loadReport(reportPeriod);
+  }
+  document.getElementById("formTab").addEventListener("click", function () { switchPanel("form"); });
+  document.getElementById("searchTab").addEventListener("click", function () { switchPanel("search"); });
+  document.getElementById("listTab").addEventListener("click", function () { switchPanel("list"); });
+  document.getElementById("reportTab").addEventListener("click", function () { switchPanel("report"); });
+
+  function showNotice(el, message, success) {
+    el.textContent = message;
+    el.classList.toggle("success", !!success);
+    el.classList.add("show");
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function clearNotice(el) { el.textContent = ""; el.classList.remove("show", "success"); }
+
+  function selected(group) {
+    return Array.prototype.map.call(clientForm.querySelectorAll('[data-check-group="' + group + '"] input:checked'), function (input) { return input.value; }).join("、");
+  }
+  function namedValue(form, name) {
+    var field = form.elements.namedItem(name);
+    if (!field) return "";
+    if (typeof field.value === "string") return field.value.trim();
+    return "";
+  }
+  function radioValue(form, name) {
+    var checked = form.querySelector('input[name="' + name + '"]:checked');
+    return checked ? checked.value : "";
+  }
+  function clientPayload() {
+    var data = {
+      "案名": namedValue(clientForm, "案名"), "貴賓姓名": namedValue(clientForm, "貴賓姓名"), "年齡": namedValue(clientForm, "年齡"), "性別": radioValue(clientForm, "性別"),
+      "住家電話": namedValue(clientForm, "住家電話"), "手機": namedValue(clientForm, "手機"), "居住縣市": namedValue(clientForm, "居住縣市"), "居住鄉鎮市區": namedValue(clientForm, "居住鄉鎮市區"),
+      "居住路街": namedValue(clientForm, "居住路街"), "居住號": namedValue(clientForm, "居住號"), "職業": selected("職業"), "職業其他": namedValue(clientForm, "職業其他"),
+      "現居持有": radioValue(clientForm, "現居持有"), "現居類型": selected("現居類型"), "屋齡": namedValue(clientForm, "屋齡"), "需求房": namedValue(clientForm, "需求房"),
+      "需求廳": namedValue(clientForm, "需求廳"), "需求衛": namedValue(clientForm, "需求衛"), "購屋動機": selected("購屋動機"), "購屋動機其他": namedValue(clientForm, "購屋動機其他"),
+      "房型需求": selected("房型需求"), "房型其他": namedValue(clientForm, "房型其他"), "預算": radioValue(clientForm, "預算"), "資訊來源": selected("資訊來源"),
+      "資訊來源其他": namedValue(clientForm, "資訊來源其他"), "介紹戶別": namedValue(clientForm, "介紹戶別"), "蒞臨日期": namedValue(clientForm, "蒞臨日期"), "特徵": namedValue(clientForm, "特徵"),
+      "同來人數": namedValue(clientForm, "同來人數"), "關係": namedValue(clientForm, "關係"), "喜愛點": namedValue(clientForm, "喜愛點"), "抗性": namedValue(clientForm, "抗性"),
+      "其他": namedValue(clientForm, "其他"), "電訪紀錄": namedValue(clientForm, "電訪紀錄"), "專案": namedValue(clientForm, "專案"), "填表人": namedValue(clientForm, "填表人")
+    };
+    if (editingId) data["編號"] = editingId;
+    return data;
+  }
+  function validateFirstStep() {
+    var name = document.getElementById("guestName");
+    var mobile = document.getElementById("mobile");
+    if (!name.value.trim()) { showNotice(formNotice, "請先填寫貴賓姓名。", false); name.focus(); return false; }
+    if (!mobile.value.trim()) { showNotice(formNotice, "請先填寫手機號碼。", false); mobile.focus(); return false; }
+    return true;
+  }
+  function renderStep() {
+    Array.prototype.forEach.call(document.querySelectorAll(".step"), function (el, index) { el.classList.toggle("active", index === currentStep); });
+    document.getElementById("progressTitle").textContent = "第 " + (currentStep + 1) + " 步，共 3 步";
+    document.getElementById("progressName").textContent = stepNames[currentStep];
+    document.getElementById("progressBar").style.width = ((currentStep + 1) / 3 * 100) + "%";
+    document.getElementById("prevBtn").hidden = currentStep === 0;
+    document.getElementById("nextBtn").hidden = currentStep === 2;
+    document.getElementById("submitBtn").hidden = currentStep !== 2;
+    document.getElementById("submitBtn").textContent = editingId ? "確認更新" : "確認送出";
+    if (currentStep === 2) {
+      document.getElementById("reviewName").textContent = document.getElementById("guestName").value.trim() || "尚未填寫姓名";
+      document.getElementById("reviewContact").textContent = document.getElementById("mobile").value.trim() || "尚未填寫手機";
+    }
+    clearNotice(formNotice);
+  }
+  document.getElementById("nextBtn").addEventListener("click", function () {
+    if (currentStep === 0 && !validateFirstStep()) return;
+    currentStep = Math.min(2, currentStep + 1); renderStep(); window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  document.getElementById("prevBtn").addEventListener("click", function () { currentStep = Math.max(0, currentStep - 1); renderStep(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+  function compactPayload(data) {
+    var payload = {};
+    Object.keys(data).forEach(function (key) { if (key === "編號" || data[key] !== "") payload[key] = data[key]; });
+    return payload;
+  }
+  function callApi(action, data) {
+    return new Promise(function (resolve, reject) {
+      var payload = compactPayload(data);
+      var cb = "__cb" + Date.now() + "_" + Math.floor(Math.random() * 1000000);
+      var script = document.createElement("script");
+      var timer = setTimeout(function () { cleanup(); reject(new Error("連線逾時")); }, 30000);
+      function cleanup() { clearTimeout(timer); try { delete window[cb]; } catch (e) { window[cb] = undefined; } if (script.parentNode) script.parentNode.removeChild(script); }
+      window[cb] = function (res) { cleanup(); resolve(res); };
+      script.onerror = function () { cleanup(); reject(new Error("無法連線至資料服務")); };
+      script.src = BACKEND_URL + "?action=" + encodeURIComponent(action) + "&payload=" + encodeURIComponent(JSON.stringify(payload)) + "&callback=" + cb;
+      document.head.appendChild(script);
+    });
+  }
+  function loading(button, active, label) {
+    if (active) { button.dataset.label = button.textContent; button.innerHTML = '<span class="spinner" aria-hidden="true"></span>' + label; button.disabled = true; }
+    else { button.textContent = button.dataset.label || button.textContent; button.disabled = false; }
+  }
+
+  function setEditing(id) {
+    editingId = id || "";
+    document.getElementById("editingId").textContent = editingId ? "編號 " + editingId : "";
+    document.getElementById("editBanner").classList.toggle("show", !!editingId);
+    renderStep();
+  }
+  function resetForm() {
+    clientForm.reset(); document.getElementById("visitDate").value = taipeiDate(); currentStep = 0; setEditing(""); confirmation.classList.remove("show"); clientForm.style.display = "block"; clearNotice(formNotice);
+  }
+  document.getElementById("cancelEdit").addEventListener("click", resetForm);
+
+  clientForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    var button = document.getElementById("submitBtn");
+    try {
+      if (!validateFirstStep()) { currentStep = 0; renderStep(); return; }
+      clearNotice(formNotice); loading(button, true, editingId ? "正在更新" : "正在送出");
+      var wasEditing = !!editingId;
+      var result = await callApi(wasEditing ? "update" : "create", clientPayload());
+      if (!result || !result.ok) throw new Error(result && result.error ? result.error : "未知錯誤");
+      var id = String(result["編號"] || result.id || editingId || "");
+      if (!id) throw new Error("未收到客戶編號");
+      document.getElementById("createdId").textContent = id;
+      document.getElementById("confirmationTitle").textContent = wasEditing ? "資料已更新" : "資料已送出";
+      document.getElementById("confirmationText").textContent = wasEditing ? "客戶資料與洽談紀錄已完成更新。" : "貴賓資料已建立，請保存下方客戶編號。";
+      document.getElementById("newForm").textContent = wasEditing ? "返回客戶查詢" : "填寫下一份";
+      document.getElementById("newForm").dataset.after = wasEditing ? "search" : "new";
+      clientForm.style.display = "none"; document.getElementById("editBanner").classList.remove("show"); confirmation.classList.add("show"); confirmation.scrollIntoView({ behavior: "smooth", block: "center" });
+    } catch (error) { showNotice(formNotice, (editingId ? "更新失敗：" : "送出失敗：") + (error && error.message ? error.message : String(error)) + "。", false); }
+    finally { loading(button, false, ""); }
+  });
+
+  document.getElementById("copyId").addEventListener("click", async function () {
+    var id = document.getElementById("createdId").textContent; var button = this;
+    try { await navigator.clipboard.writeText(id); button.textContent = "已複製"; } catch (error) { button.textContent = "請長按編號複製"; }
+  });
+  document.getElementById("newForm").addEventListener("click", function () { var target = this.dataset.after; resetForm(); if (target === "search") switchPanel("search"); else window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+  function splitMulti(value) { return String(value == null ? "" : value).split(/[、,，]/).map(function (item) { return item.trim(); }).filter(Boolean); }
+  function fillForm(data) {
+    clientForm.reset();
+    Array.prototype.forEach.call(clientForm.elements, function (field) {
+      if (!field.name || field.type === "checkbox" || field.type === "radio" || field.type === "button" || field.type === "submit") return;
+      field.value = data[field.name] == null ? "" : String(data[field.name]);
+    });
+    Array.prototype.forEach.call(clientForm.querySelectorAll('input[type="radio"]'), function (field) { field.checked = String(data[field.name] == null ? "" : data[field.name]) === field.value; });
+    ["職業", "現居類型", "購屋動機", "房型需求", "資訊來源"].forEach(function (group) {
+      var values = splitMulti(data[group]);
+      Array.prototype.forEach.call(clientForm.querySelectorAll('[data-check-group="' + group + '"] input'), function (field) { field.checked = values.indexOf(field.value) !== -1; });
+    });
+    if (!namedValue(clientForm, "蒞臨日期")) document.getElementById("visitDate").value = taipeiDate();
+    currentStep = 0; setEditing(String(data["編號"] || "")); confirmation.classList.remove("show"); clientForm.style.display = "block"; switchPanel("form"); showNotice(formNotice, "已載入客戶資料，修改後按「確認更新」即可儲存。", true);
+  }
+
+  function getRows(result) {
+    if (!result || typeof result !== "object") return [];
+    if (result.data && typeof result.data === "object" && Array.isArray(result.data.rows)) return result.data.rows;
+    if (Array.isArray(result.data)) return result.data;
+    if (Array.isArray(result.results)) return result.results;
+    if (Array.isArray(result.rows)) return result.rows;
+    return [];
+  }
+  function formatDateTime(value) {
+    if (value == null || value === "") return "未提供";
+    var text = String(value); var date = new Date(text);
+    if (!isNaN(date.getTime())) return new Intl.DateTimeFormat("zh-TW", { timeZone: "Asia/Taipei", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(date);
+    return text;
+  }
+  function actionButton(label, className, handler) {
+    var button = document.createElement("button");
+    button.className = "btn " + className;
+    button.type = "button";
+    button.textContent = label;
+    button.addEventListener("click", handler);
+    return button;
+  }
+  function renderResults(rows, total) {
+    var totalCount = typeof total === "number" && isFinite(total) ? total : rows.length;
+    var container = document.getElementById("results"); container.textContent = "";
+    document.getElementById("resultCount").textContent = totalCount > rows.length ? "顯示前 " + rows.length + " 筆（共 " + totalCount + " 筆）" : "共 " + totalCount + " 筆";
+    if (!rows.length) { var empty = document.createElement("div"); empty.className = "empty-state"; empty.textContent = "沒有符合條件的客戶資料。"; container.appendChild(empty); return; }
+    rows.forEach(function (row) {
+      var card = document.createElement("article"); card.className = "result-card";
+      var top = document.createElement("div"); top.className = "result-top";
+      var identity = document.createElement("div"); var name = document.createElement("h3"); name.textContent = String(row["貴賓姓名"] || "未填姓名"); var id = document.createElement("code"); id.textContent = String(row["編號"] || "無編號"); identity.appendChild(name); identity.appendChild(id);
+      var status = document.createElement("span"); status.className = "status-badge"; status.textContent = String(row["狀態"] || "未標記"); top.appendChild(identity); top.appendChild(status);
+      var meta = document.createElement("div"); meta.className = "result-meta";
+      [["手機", row["手機"] || "未留手機"], ["建立時間", formatDateTime(row["建立時間"] || row["建立日期"] || row["蒞臨日期"])]].forEach(function (item) { var part = document.createElement("div"); var label = document.createElement("span"); var value = document.createElement("strong"); label.textContent = item[0]; value.textContent = String(item[1]); part.appendChild(label); part.appendChild(value); meta.appendChild(part); });
+      var actions = document.createElement("div"); actions.className = "record-actions";
+      actions.appendChild(actionButton("載入", "primary", function () { fillForm(row); }));
+      actions.appendChild(actionButton("刪除", "danger", function () { requestDelete(row, function () { card.remove(); var remaining = container.querySelectorAll(".result-card").length; document.getElementById("resultCount").textContent = "共 " + remaining + " 筆"; if (!remaining) renderResults([]); }, searchNotice); }));
+      card.appendChild(top); card.appendChild(meta); card.appendChild(actions); container.appendChild(card);
+    });
+  }
+
+  function closeDeleteModal() {
+    document.getElementById("deleteModal").classList.remove("show");
+    document.body.style.overflow = "";
+    deleteTarget = null;
+  }
+  function requestDelete(row, onSuccess, noticeEl) {
+    var id = String(row["編號"] || "").trim();
+    var name = String(row["貴賓姓名"] || "未填姓名").trim();
+    if (!id) { showNotice(noticeEl, "此筆資料沒有編號，無法刪除。", false); return; }
+    deleteTarget = { id: id, name: name, onSuccess: onSuccess, noticeEl: noticeEl };
+    document.getElementById("deleteMessage").innerHTML = "確定要刪除 <strong>編號" + escapeHtml(id) + "（" + escapeHtml(name) + "）</strong>的資料嗎？此動作無法復原。";
+    document.getElementById("deleteModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+    document.getElementById("cancelDelete").focus();
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>\"']/g, function (char) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]; });
+  }
+  document.getElementById("cancelDelete").addEventListener("click", closeDeleteModal);
+  document.getElementById("deleteModal").addEventListener("click", function (event) { if (event.target === this) closeDeleteModal(); });
+  document.addEventListener("keydown", function (event) { if (event.key === "Escape" && document.getElementById("deleteModal").classList.contains("show")) closeDeleteModal(); });
+  document.getElementById("confirmDelete").addEventListener("click", async function () {
+    if (!deleteTarget) return;
+    var target = deleteTarget; var button = this;
+    loading(button, true, "刪除中");
+    try {
+      var result = await callApi("delete", { "編號": target.id });
+      if (!result || !result.ok) throw new Error(result && result.error ? result.error : "未知錯誤");
+      closeDeleteModal(); await Promise.resolve(target.onSuccess()); showNotice(target.noticeEl, "已刪除 編號" + target.id + "（" + target.name + "）的資料。", true);
+    } catch (error) {
+      closeDeleteModal(); showNotice(target.noticeEl, "刪除失敗：" + (error && error.message ? error.message : String(error)) + "。", false);
+    } finally { loading(button, false, ""); }
+  });
+
+  function renderListPagination(total, page) {
+    var nav = document.getElementById("listPagination");
+    nav.textContent = "";
+    var totalPages = Math.max(1, Math.ceil(total / listPageSize));
+    var summary = document.createElement("span");
+    summary.className = "pagination-summary";
+    summary.textContent = "共 " + total + " 筆，第 " + page + " / " + totalPages + " 頁";
+    nav.appendChild(summary);
+
+    var buttons = document.createElement("div");
+    buttons.className = "pagination-buttons";
+    function appendPageButton(label, targetPage, disabled, current, ariaLabel) {
+      var button = document.createElement("button");
+      button.className = "page-btn";
+      button.type = "button";
+      button.textContent = label;
+      button.disabled = !!disabled;
+      if (current) button.setAttribute("aria-current", "page");
+      if (ariaLabel) button.setAttribute("aria-label", ariaLabel);
+      button.addEventListener("click", function () { loadCustomerList(targetPage); });
+      buttons.appendChild(button);
+    }
+    appendPageButton("上一頁", page - 1, page <= 1, false, "前往上一頁");
+    var start = Math.max(1, page - 2);
+    var end = Math.min(totalPages, page + 2);
+    for (var number = start; number <= end; number += 1) appendPageButton(String(number), number, number === page, number === page, "前往第 " + number + " 頁");
+    appendPageButton("下一頁", page + 1, page >= totalPages, false, "前往下一頁");
+    nav.appendChild(buttons);
+  }
+  function renderCustomerList(rows, total, page) {
+    listRows = rows.slice();
+    listTotal = total;
+    listPage = page;
+    document.getElementById("listCount").textContent = "共 " + total + " 筆，每頁 " + listPageSize + " 筆";
+    var wrap = document.getElementById("listTableWrap"); wrap.textContent = "";
+    if (!rows.length) {
+      var empty = document.createElement("div"); empty.className = "empty-state"; empty.textContent = "目前沒有資料"; wrap.appendChild(empty);
+      renderListPagination(total, page);
+      return;
+    }
+    var table = document.createElement("table"); table.className = "customer-table";
+    var thead = document.createElement("thead"); var headRow = document.createElement("tr");
+    ["編號", "貴賓姓名", "手機", "建立時間", "狀態", "操作"].forEach(function (label, index) { var th = document.createElement("th"); th.textContent = label; th.scope = "col"; if (index === 5) th.className = "action-col"; headRow.appendChild(th); });
+    thead.appendChild(headRow); table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    rows.forEach(function (row) {
+      var tr = document.createElement("tr");
+      var values = [row["編號"] || "—", row["貴賓姓名"] || "未填姓名", row["手機"] || "未留手機", formatDateTime(row["建立時間"] || row["建立日期"] || row["蒞臨日期"]), row["狀態"] || "未標記"];
+      values.forEach(function (value, index) { var td = document.createElement("td"); td.textContent = String(value); if (index === 0) td.className = "id-cell"; tr.appendChild(td); });
+      var actionCell = document.createElement("td"); actionCell.className = "action-col"; var actions = document.createElement("div"); actions.className = "table-actions";
+      actions.appendChild(actionButton("編輯", "primary", function () { fillForm(row); }));
+      actions.appendChild(actionButton("刪除", "danger", function () { requestDelete(row, function () { return loadCustomerList(listPage, true); }, listNotice); }));
+      actionCell.appendChild(actions); tr.appendChild(actionCell); tbody.appendChild(tr);
+    });
+    table.appendChild(tbody); wrap.appendChild(table);
+    renderListPagination(total, page);
+  }
+  async function loadCustomerList(page, afterDelete) {
+    var button = document.getElementById("refreshList");
+    var requestedPage = Math.max(1, Number(page) || listPage || 1);
+    clearNotice(listNotice); loading(button, true, "載入中");
+    try {
+      var result;
+      var rows;
+      var total;
+      while (true) {
+        result = await callApi("search", { page: requestedPage, page_size: listPageSize });
+        if (!result || !result.ok) throw new Error(result && result.error ? result.error : "未知錯誤");
+        var pageData = result.data && typeof result.data === "object" && !Array.isArray(result.data) ? result.data : result;
+        rows = getRows(result);
+        total = Number(pageData.total);
+        if (!isFinite(total) || total < 0) total = rows.length;
+        if (rows.length || requestedPage === 1) break;
+        requestedPage -= 1;
+      }
+      var returnedPage = Number(pageData.page);
+      if (!isFinite(returnedPage) || returnedPage < 1) returnedPage = requestedPage;
+      var returnedPageSize = Number(pageData.page_size);
+      if (isFinite(returnedPageSize) && returnedPageSize > 0) listPageSize = returnedPageSize;
+      renderCustomerList(rows, total, returnedPage);
+    }
+    catch (error) {
+      renderCustomerList([], 0, 1);
+      showNotice(listNotice, "客資載入失敗：" + (error && error.message ? error.message : String(error)) + "。", false);
+    }
+    finally { loading(button, false, ""); }
+  }
+  document.getElementById("refreshList").addEventListener("click", function () { loadCustomerList(listPage); });
+  document.getElementById("searchForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    var from = document.getElementById("dateFrom").value; var to = document.getElementById("dateTo").value;
+    if (from && to && from > to) { showNotice(searchNotice, "建立日期起不可晚於建立日期迄。", false); return; }
+    var button = document.getElementById("searchBtn");
+    var query = { "編號": document.getElementById("searchId").value.trim().toUpperCase(), "貴賓姓名": document.getElementById("searchName").value.trim(), "手機": document.getElementById("searchMobile").value.trim(), "date_from": from, "date_to": to };
+    clearNotice(searchNotice); loading(button, true, "搜尋中");
+    try {
+      var result = await callApi("search", query);
+      if (!result || !result.ok) throw new Error(result && result.error ? result.error : "未知錯誤");
+      var allRows = getRows(result);
+      var total = Number(result.total);
+      if (!isFinite(total) || total < allRows.length) total = allRows.length;
+      var visibleRows = allRows.slice(0, 50);
+      renderResults(visibleRows, total);
+      if (total > 50 || allRows.length > 50) showNotice(searchNotice, "結果過多，請縮小搜尋條件。", false);
+    }
+    catch (error) { renderResults([], 0); showNotice(searchNotice, "搜尋失敗：" + (error && error.message ? error.message : String(error)) + "。", false); }
+    finally { loading(button, false, ""); }
+  });
+
+  function pad(value) { return String(value).padStart(2, "0"); }
+  function ymd(date) { return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate()); }
+  function periodRange(period) {
+    var nowParts = taipeiDate().split("-").map(Number); var today = new Date(nowParts[0], nowParts[1] - 1, nowParts[2]); var start, end;
+    if (period === "week") { var mondayOffset = (today.getDay() + 6) % 7; start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - mondayOffset); end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6); }
+    else if (period === "quarter") { var firstMonth = Math.floor(today.getMonth() / 3) * 3; start = new Date(today.getFullYear(), firstMonth, 1); end = new Date(today.getFullYear(), firstMonth + 3, 0); }
+    else { start = new Date(today.getFullYear(), today.getMonth(), 1); end = new Date(today.getFullYear(), today.getMonth() + 1, 0); }
+    return { start: start, end: end, from: ymd(start), to: ymd(end) };
+  }
+  function rowDate(row) {
+    var raw = row["蒞臨日期"] || row["建立時間"] || row["建立日期"]; if (!raw) return null;
+    var match = String(raw).match(/(\d{4})[-\/]?(\d{1,2})[-\/]?(\d{1,2})/); if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    var date = new Date(raw); return isNaN(date.getTime()) ? null : date;
+  }
+  function countBy(rows, getter, labels) {
+    var counts = {};
+    labels.forEach(function (label) { counts[label] = 0; });
+    rows.forEach(function (row) {
+      var key = getter(row) || "未填寫";
+      if (Object.prototype.hasOwnProperty.call(counts, key)) counts[key] += 1;
+    });
+    return labels.map(function (label) { return counts[label]; });
+  }
+  function countValues(rows, getter) {
+    var counts = {};
+    rows.forEach(function (row) {
+      var values = getter(row);
+      if (!Array.isArray(values)) values = [values];
+      values = values.map(function (value) { return String(value == null ? "" : value).trim(); }).filter(Boolean);
+      if (!values.length) values = ["未填寫"];
+      values.filter(function (value, index, array) { return array.indexOf(value) === index; }).forEach(function (value) { counts[value] = (counts[value] || 0) + 1; });
+    });
+    return counts;
+  }
+  function multiValues(row, field, otherField) {
+    var values = splitMulti(row[field]);
+    var other = String(row[otherField] == null ? "" : row[otherField]).trim();
+    if (other) {
+      var otherIndex = values.indexOf("其他");
+      if (otherIndex !== -1) values.splice(otherIndex, 1, other);
+      else values.push(other);
+    }
+    return values.length ? values : ["未填寫"];
+  }
+  function sortedLabels(counts, limit) {
+    var labels = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b, "zh-Hant"); });
+    if (typeof limit === "number") labels = labels.slice(0, limit);
+    return labels.length ? labels : ["未填寫"];
+  }
+  function chartColors() { var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches; return { text: dark ? "#eef4f0" : "#17211d", grid: dark ? "rgba(167,182,174,.18)" : "rgba(96,112,104,.16)", green: dark ? "#83b7a6" : "#235c4d", gold: dark ? "#d1a568" : "#a8793d" }; }
+  function destroyCharts() { Object.keys(charts).forEach(function (key) { if (charts[key]) charts[key].destroy(); }); charts = {}; }
+  function renderCharts(rows, period, range) {
+    if (typeof Chart === "undefined") { showNotice(reportNotice, "圖表元件暫時無法載入，請確認網路後重新開啟頁面。", false); return; }
+    clearNotice(reportNotice); destroyCharts();
+    var palette = chartColors();
+    var piePalette = ["#235c4d", "#a8793d", "#4f7e70", "#c19761", "#78998f", "#8d6840", "#99b5aa", "#d5b889", "#41685c", "#b78d56", "#688b80", "#96734a"];
+    Chart.defaults.color = palette.text;
+    Chart.defaults.font.family = '"Noto Sans TC", "PingFang TC", sans-serif';
+    Chart.defaults.borderColor = palette.grid;
+
+    var commonOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { displayColors: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: palette.grid } }, x: { grid: { display: false } } } };
+    var pieOptions = { responsive: true, maintainAspectRatio: false, cutout: "56%", plugins: { legend: { position: "bottom", labels: { boxWidth: 11, usePointStyle: true, padding: 14 } } } };
+    function barChart(id, labels, data, color) {
+      return new Chart(document.getElementById(id), { type: "bar", data: { labels: labels, datasets: [{ data: data, backgroundColor: color, borderRadius: 6, maxBarThickness: 42 }] }, options: commonOptions });
+    }
+    function pieChart(id, labels, counts) {
+      return new Chart(document.getElementById(id), { type: "doughnut", data: { labels: labels, datasets: [{ data: labels.map(function (label) { return counts[label] || 0; }), backgroundColor: piePalette, borderWidth: 0 }] }, options: pieOptions });
+    }
+    function showTotal(id) { document.getElementById(id).textContent = "總筆數：" + rows.length + " 筆"; }
+
+    var trendLabels = [], trendData = [], undated = 0;
+    if (period === "week") {
+      trendLabels = ["週一", "週二", "週三", "週四", "週五", "週六", "週日"];
+      trendData = countBy(rows, function (row) { var d = rowDate(row); if (!d) { undated += 1; return ""; } return trendLabels[(d.getDay() + 6) % 7]; }, trendLabels);
+      document.getElementById("trendUnit").textContent = "按日";
+    } else if (period === "quarter") {
+      for (var m = range.start.getMonth(); m < range.start.getMonth() + 3; m += 1) trendLabels.push((m + 1) + "月");
+      trendData = countBy(rows, function (row) { var d = rowDate(row); if (!d) { undated += 1; return ""; } return (d.getMonth() + 1) + "月"; }, trendLabels);
+      document.getElementById("trendUnit").textContent = "按月";
+    } else if (period === "all") {
+      var monthCounts = {};
+      rows.forEach(function (row) {
+        var d = rowDate(row);
+        if (!d) { undated += 1; return; }
+        var key = d.getFullYear() + "/" + pad(d.getMonth() + 1);
+        monthCounts[key] = (monthCounts[key] || 0) + 1;
+      });
+      trendLabels = Object.keys(monthCounts).sort();
+      trendData = trendLabels.map(function (label) { return monthCounts[label]; });
+      document.getElementById("trendUnit").textContent = "按月";
+    } else {
+      var weeks = Math.ceil((range.end.getDate() + ((new Date(range.start.getFullYear(), range.start.getMonth(), 1).getDay() + 6) % 7)) / 7);
+      for (var w = 1; w <= weeks; w += 1) trendLabels.push("第" + w + "週");
+      trendData = countBy(rows, function (row) { var d = rowDate(row); if (!d) { undated += 1; return ""; } var offset = (new Date(d.getFullYear(), d.getMonth(), 1).getDay() + 6) % 7; return "第" + (Math.floor((d.getDate() + offset - 1) / 7) + 1) + "週"; }, trendLabels);
+      document.getElementById("trendUnit").textContent = "按週";
+    }
+    if (undated || !trendLabels.length) { trendLabels.push("未填寫"); trendData.push(undated); }
+    charts.trend = barChart("trendChart", trendLabels, trendData, palette.green);
+    showTotal("trendTotal");
+
+    var genderLabels = ["男", "女", "未填寫"];
+    var genderData = countBy(rows, function (row) { var value = String(row["性別"] || "").trim(); return value === "男" || value === "女" ? value : "未填寫"; }, genderLabels);
+    var genderCounts = {}; genderLabels.forEach(function (label, index) { genderCounts[label] = genderData[index]; });
+    charts.gender = pieChart("genderChart", genderLabels, genderCounts);
+    showTotal("genderTotal");
+
+    var ageLabels = ["20以下", "21–30", "31–40", "41–50", "51以上", "未填寫"];
+    var ageData = countBy(rows, function (row) { var text = String(row["年齡"] == null ? "" : row["年齡"]).trim(); var age = Number(text); if (!text || !isFinite(age) || age <= 0) return "未填寫"; if (age <= 20) return "20以下"; if (age <= 30) return "21–30"; if (age <= 40) return "31–40"; if (age <= 50) return "41–50"; return "51以上"; }, ageLabels);
+    charts.age = barChart("ageChart", ageLabels, ageData, palette.gold);
+    showTotal("ageTotal");
+
+    var cityCounts = countValues(rows, function (row) { return String(row["居住縣市"] || "").trim() || "未填寫"; });
+    var cityLabels = sortedLabels(cityCounts);
+    charts.city = pieChart("cityChart", cityLabels, cityCounts);
+    showTotal("cityTotal");
+
+    var occupationCounts = countValues(rows, function (row) { return multiValues(row, "職業", "職業其他"); });
+    var occupationLabels = sortedLabels(occupationCounts, 10);
+    charts.occupation = barChart("occupationChart", occupationLabels, occupationLabels.map(function (label) { return occupationCounts[label] || 0; }), palette.green);
+    showTotal("occupationTotal");
+
+    var motiveCounts = countValues(rows, function (row) { return multiValues(row, "購屋動機", "購屋動機其他"); });
+    var motiveLabels = sortedLabels(motiveCounts);
+    charts.motive = pieChart("motiveChart", motiveLabels, motiveCounts);
+    showTotal("motiveTotal");
+
+    var budgetLabels = ["500-1000萬", "1000-1500萬", "1500-2000萬", "2000-2500萬", "2500-3000萬", "3000-3500萬", "3500-4000萬", "4000萬以上", "未填寫"];
+    var budgetData = countBy(rows, function (row) {
+      var text = String(row["預算"] || "").trim();
+      if (!text) return "未填寫";
+      var numbers = text.match(/\d+/g) || [];
+      if (/以上/.test(text) && Number(numbers[0]) >= 4000) return "4000萬以上";
+      var normalized = numbers.length >= 2 ? numbers[0] + "-" + numbers[1] + "萬" : "";
+      return budgetLabels.indexOf(normalized) !== -1 ? normalized : "未填寫";
+    }, budgetLabels);
+    charts.budget = barChart("budgetChart", budgetLabels, budgetData, palette.green);
+    showTotal("budgetTotal");
+
+    var sourceCounts = countValues(rows, function (row) { return multiValues(row, "資訊來源", "資訊來源其他"); });
+    var sourceLabels = sortedLabels(sourceCounts);
+    charts.source = pieChart("sourceChart", sourceLabels, sourceCounts);
+    showTotal("sourceTotal");
+  }
+  async function loadReport(period) {
+    reportPeriod = period; Array.prototype.forEach.call(document.querySelectorAll(".period-switch button"), function (button) { button.classList.toggle("active", button.dataset.period === period); button.disabled = true; });
+    var isAll = period === "all";
+    var range = isAll ? null : periodRange(period);
+    document.getElementById("reportRange").textContent = isAll ? "全部資料" : range.from.replace(/-/g, "/") + " — " + range.to.replace(/-/g, "/");
+    document.getElementById("reportTotal").textContent = "載入中"; clearNotice(reportNotice);
+    try {
+      var query = isAll ? {} : { "date_from": range.from, "date_to": range.to };
+      var result = await callApi("search", query);
+      if (!result || !result.ok) throw new Error(result && result.error ? result.error : "未知錯誤");
+      var rows = getRows(result);
+      document.getElementById("reportTotal").textContent = "共 " + rows.length + " 組來客";
+      renderCharts(rows, period, range);
+    }
+    catch (error) { document.getElementById("reportTotal").textContent = "載入失敗"; destroyCharts(); showNotice(reportNotice, "報表載入失敗：" + (error && error.message ? error.message : String(error)) + "。", false); }
+    finally { Array.prototype.forEach.call(document.querySelectorAll(".period-switch button"), function (button) { button.disabled = false; }); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".period-switch button"), function (button) { button.addEventListener("click", function () { loadReport(button.dataset.period); }); });
+})();
+</script>
+</body>
+</html>
